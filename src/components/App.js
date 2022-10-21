@@ -3,10 +3,9 @@ import AccountContainer from "./AccountContainer";
 
 function App() {
   const [transactions, setTransactions] = useState([]);
-  const [fieldInput, setFieldInput] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3001/transactions')
+    fetch('http://localhost:4000/transactions')
     .then(resp => resp.json())
     .then(transactionArray => {
       setTransactions(transactionArray);
@@ -23,16 +22,9 @@ function App() {
       body: JSON.stringify(transaction)
     };
 
-    fetch('http://localhost:3001/transactions', configObj)
+    fetch('http://localhost:4000/transactions', configObj)
   };
 
-  function handleChange(e) {
-    setFieldInputs(e.target.value)
-    const filteredResults = transactions.filter((transaction) => {
-      return transaction.description.toLowerCase().includes(fieldInput.toLowerCase());
-    })
-    setTransactions(filteredResults)
-  };
   return (
     <div className="ui raised segment">
       <div className="ui segment violet inverted">
@@ -41,8 +33,7 @@ function App() {
       <AccountContainer 
         transactions={transactions}
         createTransaction={createTransaction}
-        handleChange={handleChange}
-        setFieldInput={setFieldInput}
+        setTransactions={setTransactions}
       />
     </div>
   );
