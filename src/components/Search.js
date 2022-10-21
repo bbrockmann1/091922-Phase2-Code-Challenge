@@ -1,18 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Search({ handleChange, setTransactions, transactions }) {
-  const [fieldInput, setFieldInput] = useState('');
-
+function Search({ setFieldInput, fieldInput }) {
   function handleChange(e) {
     setFieldInput(e.target.value)
-
-    const filteredResults = transactions.filter((transaction) => {
-      return transaction.description.toLowerCase().includes(fieldInput.toLowerCase());
-    });
-
-    setTransactions(filteredResults)
-  }
-
+  };
   return (
     <div className="ui large fluid icon input">
       <input

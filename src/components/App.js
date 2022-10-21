@@ -3,6 +3,7 @@ import AccountContainer from "./AccountContainer";
 
 function App() {
   const [transactions, setTransactions] = useState([]);
+  const [fieldInput, setFieldInput] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:4000/transactions')
@@ -10,7 +11,7 @@ function App() {
     .then(transactionArray => {
       setTransactions(transactionArray);
     })
-  }, [])
+  }, [transactions])
 
   function createTransaction(transaction) {
     const configObj = {
@@ -25,15 +26,20 @@ function App() {
     fetch('http://localhost:4000/transactions', configObj)
   };
 
+  const filteredTransactions = transactions.filter(transaction => {
+    return transaction.description.toLowerCase().includes(fieldInput.toLowerCase())
+  });
+
   return (
     <div className="ui raised segment">
       <div className="ui segment violet inverted">
         <h2>The Royal Bank of Flatiron</h2>
       </div>
       <AccountContainer 
-        transactions={transactions}
+        transactions={filteredTransactions}
         createTransaction={createTransaction}
-        setTransactions={setTransactions}
+        setFieldInput={setFieldInput}
+        fieldInput={fieldInput}
       />
     </div>
   );
